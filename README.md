@@ -1,6 +1,12 @@
 # YourSpace 
 > A Space for all your Files --- You can Add, Read, Update, Delete as well Download the file from this 
 
+
+## .env Setup Instruction
+> Add .env file in root Directory and write 
+
+> MONGOD_URL = <MongoDb_URI>
+
 ## Currently Live in [YourSpace-Heroku](https://its-your-space.herokuapp.com/)
 
 ![Home Page](/sample-pictures/home-page.jpg)
