@@ -101,24 +101,36 @@ app.get("/posts/:postId/edit", (req, res) => {
   });
 });
 app.post("/posts/:postId/edit", upload.single("myfile"), (req, res) => {
-  Post.findByIdAndUpdate(
-    req.params.postId,
-    {
-      $set: {
-        title: req.body.title,
-        content: req.body.content,
-        file: req.file.filename,
-      },
-    },
-    (err, update) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Post Updated");
-        res.redirect("/");
-      }
+  Post.findById(req.params.postId, (err, post) => {
+    if (err) {
+      res.send(err);
+      return;
     }
-  );
+    console.log(req.body, post);
+    const result = bcrypt.compareSync(req.body.password, post.password);
+    if (!result) {
+      res.send("Invalid password");
+      return;
+    }
+    Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          file: req.file.filename,
+        },
+      },
+      (err, update) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Post Updated");
+          res.redirect("/");
+        }
+      }
+    );
+  });
 });
 
 //For Deleting the post
