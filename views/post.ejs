@@ -6,15 +6,10 @@
         <p class="post-desc">
             <%=content%>
         </p>
-        <a href="/uploads/files/<%=file%>">
+        <a href="/posts/<%=postId%>/view">
             <button class="btn btn-info view-btn">
                 <i class="bi bi-eye"></i>
                 View</button>
-        </a>
-        <a href="/uploads/files/<%=file%>" download>
-            <button class="btn btn-success download-btn">
-                <i class="bi bi-download"></i>
-                Download </button>
         </a>
         <form class="edit" action="/posts/<%=postId%>/edit" method="get">
             <button class="btn btn-primary edit-btn" type="submit" title="Edit this blog">

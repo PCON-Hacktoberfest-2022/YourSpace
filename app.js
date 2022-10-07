@@ -6,6 +6,7 @@ const _ = require("lodash");
 const multer = require("multer");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const res = require("express/lib/response");
 const app = express();
 
@@ -18,7 +19,7 @@ mongoose.connect(process.env.MONGOD_URL);
 //storage for the upload
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, "./public/uploads/files");
+    callback(null, "./uploads");
   },
   filename: function (request, file, callback) {
     callback(null, Date.now() + file.originalname);
@@ -31,11 +32,11 @@ const upload = multer({
     fieldSize: 1024 * 1024 * 3,
   },
 });
-
 const postSchema = {
   title: String,
   content: String,
   file: String,
+  password: String,
 };
 
 const Post = mongoose.model("Post", postSchema);
@@ -57,11 +58,17 @@ app.get("/compose", function (req, res) {
 });
 
 // Create Post
-app.post("/compose", upload.single("myfile"), function (req, res) {
+app.post("/compose", upload.single("myfile"), async function (req, res) {
+  let passHash = "";
+  if (req.body.password) {
+    passHash = await bcrypt.hash(req.body.password, 10);
+  }
+
   const post = new Post({
     title: req.body.postTitle,
     content: req.body.blog,
     file: req.file.filename,
+    password: passHash,
   });
   post.save(function (err) {
     if (!err) {
@@ -125,6 +132,46 @@ app.post("/posts/:postId/delete", function (req, res) {
     }
   });
 });
+
+app.get("/posts/:postId/view", function (req, res) {
+  const postId = req.params.postId;
+  Post.findById(postId, function (err, post) {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log(post);
+      if (!post.password || post.password.length == 0) {
+        res.sendFile(`./uploads/${post.file}`, { root: __dirname });
+        return;
+      }
+      res.render("view", {
+        title: post.title,
+        postId: post._id,
+      });
+    }
+  });
+});
+
+app.post("/posts/:postId/view", function (req, res) {
+  const { password } = req.body;
+  const { postId } = req.params;
+
+  Post.findById(postId, function (err, post) {
+    if (err) {
+      res.send(err);
+      return;
+    }
+
+    console.log(password, post.password);
+    const result = bcrypt.compareSync(password, post.password);
+    if (result) {
+      res.sendFile(`./uploads/${post.file}`, { root: __dirname });
+    } else {
+      res.send("Invalid Password");
+    }
+  });
+});
+
 //Listening the port Locally or heroku
 let port = process.env.PORT;
 if (port == null || port == "") {
