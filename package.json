@@ -12,6 +12,7 @@
     "node": "16.13.2"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.18.3",
     "dotenv": "^16.0.0",
     "ejs": "^2.6.1",
