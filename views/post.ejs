@@ -11,6 +11,11 @@
                 <i class="bi bi-eye"></i>
                 View</button>
         </a>
+        <a href="/posts/<%=postId%>/download">
+            <button class="btn btn-success download-btn">
+                <i class="bi bi-download"></i>
+                Download </button>
+        </a>
         <form class="edit" action="/posts/<%=postId%>/edit" method="get">
             <button class="btn btn-primary edit-btn" type="submit" title="Edit this blog">
                 <a class="btn-a"><i class="bi bi-pencil-square"></i></a> Edit

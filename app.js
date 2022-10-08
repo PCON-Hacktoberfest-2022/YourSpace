@@ -184,6 +184,42 @@ app.post("/posts/:postId/view", function (req, res) {
   });
 });
 
+app.get("/posts/:postId/download", function (req, res) {
+  const postId = req.params.postId;
+  Post.findById(postId, function (err, post) {
+    if (err) {
+      res.send(err);
+    } else {
+      if (!post.password || post.password.length == 0) {
+        res.download(`${__dirname}/uploads/${post.file}`, post.file);
+        return;
+      }
+      res.render("download", {
+        title: post.title,
+        postId: post._id,
+      });
+    }
+  });
+});
+
+app.post("/posts/:postId/download", function (req, res) {
+  const { password } = req.body;
+  const { postId } = req.params;
+
+  Post.findById(postId, function (err, post) {
+    if (err) {
+      res.send(err);
+      return;
+    }
+    const result = bcrypt.compareSync(password, post.password);
+    if (result) {
+      res.download(`${__dirname}/uploads/${post.file}`, post.file);
+    } else {
+      res.send("Invalid Password");
+    }
+  });
+});
+
 //Listening the port Locally or heroku
 let port = process.env.PORT;
 if (port == null || port == "") {
