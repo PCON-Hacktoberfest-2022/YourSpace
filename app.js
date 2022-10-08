@@ -8,13 +8,13 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const res = require("express/lib/response");
 const app = express();
+const cron = require("node-cron");
 
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 // console.log(process.env);
-mongoose.connect(process.env.MONGOD_URL);
 //storage for the upload
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -130,6 +130,15 @@ let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
 }
-app.listen(port, function () {
-  console.log("Server started successfully");
+
+mongoose.connect(process.env.MONGOD_URL,() => {
+  console.log("connected to mongodb");
+  app.listen(port, () => {
+    console.log("Server started successfully");
+    // below is a scheduled cron job which gets called recursively after every 23 hrs 59 minutes and 59 seconds.
+    // this cron job will delete all the stored posts by users
+    cron.schedule('59 23 * * *',async () => {
+      await Post.deleteMany({});
+    });
+  });
 });
