@@ -7,7 +7,7 @@ body {
     #c69ba6,
     #f7b4b4
   );
-  font-family: 'Fredoka', sans-serif;
+  font-family: "Fredoka", sans-serif;
   background-attachment: fixed;
   position: relative;
   margin: 0;
@@ -34,12 +34,12 @@ body {
   font-size: 5vh;
 }
 .intro-title {
-  font-family: 'Great Vibes', cursive;
+  font-family: "Great Vibes", cursive;
   margin: 4rem 4rem 0.5rem 4rem;
   font-size: 17vw;
 }
 .intro-line {
-  font-family: 'Dancing Script', cursive;
+  font-family: "Dancing Script", Verdana;
   font-size: 4vw;
 }
 .btn-upload {
@@ -62,7 +62,7 @@ a {
   color: white;
 }
 a:hover {
-  color: rgb(239, 245, 186);
+  color: rgba(104, 222, 243, 0.9);
 }
 .box-a {
   text-decoration: none;
@@ -84,7 +84,7 @@ a:hover {
     #b58d98,
     #ffcccc
   );
-  font-family: 'Fredoka', sans-serif;
+  font-family: "Fredoka", sans-serif;
   background-attachment: fixed;
 }
 .open-btn {
