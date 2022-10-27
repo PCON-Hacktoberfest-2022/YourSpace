@@ -2,12 +2,12 @@ body {
   background-image: linear-gradient(
     to left top,
     #cc33ff,
-    #fb4eda,
+    #fe2ed8,
     #ff78c2,
     #ffa4bc,
-    #ffcccc
+    #f7b4b4
   );
-  font-family: "Fredoka", sans-serif;
+  font-family: 'Fredoka', sans-serif;
   background-attachment: fixed;
   position: relative;
   margin: 0;
@@ -34,12 +34,12 @@ body {
   font-size: 5vh;
 }
 .intro-title {
-  font-family: "Great Vibes", cursive;
+  font-family: 'Great Vibes', cursive;
   margin: 4rem 4rem 0.5rem 4rem;
   font-size: 17vw;
 }
 .intro-line {
-  font-family: "Dancing Script", cursive;
+  font-family: 'Dancing Script', cursive;
   font-size: 4vw;
 }
 .btn-upload {
@@ -84,7 +84,7 @@ a:hover {
     #ffa4bc,
     #ffcccc
   );
-  font-family: "Fredoka", sans-serif;
+  font-family: 'Fredoka', sans-serif;
   background-attachment: fixed;
 }
 .open-btn {
@@ -107,8 +107,8 @@ a:hover {
 }
 
 @media only screen and (max-width: 960px) {
-.card-f{
-   width: 238px;
-  margin: 50px;
-}
+  .card-f {
+    width: 238px;
+    margin: 50px;
+  }
 }
